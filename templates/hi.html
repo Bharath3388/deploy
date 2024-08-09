@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Captioning</title>
+    <style>
+                body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center; /* Center align content */
+        }
+        h1 {
+            color: #333;
+            font-size: 48px; /* Adjust font size as needed */
+            position: relative;
+            opacity: 1; /* Show text immediately */
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
+        .dropdown {
+            font-size: 16px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            width: 300px;
+            margin: 0 auto; /* Center align dropdown */
+        }
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 15px 20px; /* Added padding */
+            border-radius: 5px;
+            cursor: pointer;
+            width: 300px;
+            display: block; /* Display as block element */
+            margin: 0 auto; /* Center align button */
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .caption {
+            margin-top: 20px;
+            border-top: 1px solid #ccc;
+            padding-top: 20px;
+        }
+        audio {
+            margin-top: 10px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Styles for image selection and preview */
+        .img-area {
+            position: relative;
+            width: 300px;
+            height: 240px;
+            background: #f2f2f2;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .img-area .icon {
+            font-size: 100px;
+        }
+        .img-area h3 {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+        .img-area p {
+            color: #999;
+        }
+        .img-area p span {
+            font-weight: 600;
+        }
+        .img-area img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            z-index: 100;
+        }
+        .img-area::before {
+            content: attr(data-img);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 240px;
+            background: rgba(0, 0, 0, .5);
+            color: #fff;
+            font-weight: 500;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+            opacity: 0;
+            transition: all .3s ease;
+            z-index: 200;
+        }
+        .img-area.active:hover::before {
+            opacity: 1;
+        }
+        .select-image {
+            display: block;
+            width: 300px;
+            padding: 16px 0;
+            border-radius: 15px;
+            background: #0071FF;
+            color: #fff;
+            font-weight: 500;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: all .3s ease;
+        }
+        .select-image:hover {
+            background: #005DD1;
+        }
+    
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Image Captioning</h1>
+        <!-- Image selection and preview area -->
+        <center>
+        <form method="POST" action="/" enctype="multipart/form-data">
+            <div class="img-area" data-img="">
+                <i class='bx bxs-cloud-upload icon'></i>
+                <h3>Upload Image</h3>
+                <p>Image size must be less than <span>2MB</span></p>
+            </div>
+            <input type="file" id="imagefile" name="imagefile" accept="image/*" >
+            
+            <label for="language">Select language for translation:</label><br>
+            <select class="dropdown" name="language">
+                <option value="en">English </option>
+                <option value="te">Telugu </option>
+                <option value="hi">Hindi</option>
+                <option value="ta">Tamil</option>
+                <option value="bn">Bengali</option>
+                <option value="mr">Marathi</option>
+                <option value="ur">Urdu</option>
+                <option value="gu">Gujarati</option>
+                <option value="kn">Kannada</option>
+                <option value="ml">Malayalam</option>
+                <option value="pa">Punjabi</option>
+            </select><br><br>
+            
+            <input type="submit" value="Generate Caption" style="display: block; width: 300px; padding: 16px 0; border-radius: 15px; background: #0071FF; color: #fff; font-weight: 500; font-size: 16px; border: none; cursor: pointer; transition: all .3s ease;">
+
+        </center>
+        </form>
+        
+        <!-- Caption and image display area -->
+        {% if prediction %}
+        <div class="caption">
+            <h2>Translated Caption:</h2>
+            <p>{{ prediction }}</p>
+            <!-- Audio player to listen to the caption -->
+            <audio controls>
+                <source src="/caption_audio" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+        {% endif %}
+        
+        {% if path %}
+        <h2>Uploaded Image:</h2>
+        <img src="{{ path }}" alt="Uploaded Image">
+        {% endif %}
+    </div>
+    
+    <script>
+        // JavaScript code for image selection and preview
+        const selectImage = document.querySelector('.select-image');
+        const inputFile = document.querySelector('#imagefile');
+        const imgArea = document.querySelector('.img-area');
+
+        selectImage.addEventListener('click', function () {
+            inputFile.click();
+        })
+
+        inputFile.addEventListener('change', function () {
+            const image = this.files[0]
+            if(image.size < 2000000) {
+                const reader = new FileReader();
+                reader.onload = ()=> {
+                    const allImg = imgArea.querySelectorAll('img');
+                    allImg.forEach(item=> item.remove());
+                    const imgUrl = reader.result;
+                    const img = document.createElement('img');
+                    img.src = imgUrl;
+                    imgArea.appendChild(img);
+                    imgArea.classList.add('active');
+                    imgArea.dataset.img = image.name;
+                }
+                reader.readAsDataURL(image);
+            } else {
+                alert("Image size more than 2MB");
+            }
+        })
+    </script>
+</body>
+</html>
+

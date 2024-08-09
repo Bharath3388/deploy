@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Captioning</title>
+</head>
+<body>
+    <h1>Image Captioning</h1>
+    <form action="/" method="POST" enctype="multipart/form-data">
+        <input type="file" name="imagefile">
+        <button type="submit">Upload</button>
+    </form>
+    {% if prediction %}
+        <h2>Predicted Caption:</h2>
+        <p>{{ prediction }}</p>
+        <h2>Uploaded Image:</h2>
+        <img src="{{path}}" alt="Uploaded Image">
+        <br>
+        path:{{path}}
+    {% endif %}
+
+
+</body>
+</html>

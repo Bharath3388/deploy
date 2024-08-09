@@ -1,0 +1,145 @@
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center; /* Center align content */
+        }
+        h1 {
+            color: #333;
+            font-size: 48px; /* Adjust font size as needed */
+            position: relative;
+            opacity: 1; /* Show text immediately */
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
+        .dropdown {
+            font-size: 16px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            width: 300px;
+            margin: 0 auto; /* Center align dropdown */
+        }
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 15px 20px; /* Added padding */
+            border-radius: 5px;
+            cursor: pointer;
+            width: 300px;
+            display: block; /* Display as block element */
+            margin: 0 auto; /* Center align button */
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .caption {
+            margin-top: 20px;
+            border-top: 1px solid #ccc;
+            padding-top: 20px;
+        }
+        audio {
+            margin-top: 10px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Styles for image selection and preview */
+        .img-area {
+            position: relative;
+            width: 300px;
+            height: 240px;
+            background: #f2f2f2;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .img-area .icon {
+            font-size: 100px;
+        }
+        .img-area h3 {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+        .img-area p {
+            color: #999;
+        }
+        .img-area p span {
+            font-weight: 600;
+        }
+        .img-area img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            z-index: 100;
+        }
+        .img-area::before {
+            content: attr(data-img);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 240px;
+            background: rgba(0, 0, 0, .5);
+            color: #fff;
+            font-weight: 500;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+            opacity: 0;
+            transition: all .3s ease;
+            z-index: 200;
+        }
+        .img-area.active:hover::before {
+            opacity: 1;
+        }
+        .select-image {
+            display: block;
+            width: 300px;
+            padding: 16px 0;
+            border-radius: 15px;
+            background: #0071FF;
+            color: #fff;
+            font-weight: 500;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: all .3s ease;
+        }
+        .select-image:hover {
+            background: #005DD1;
+        }
+    

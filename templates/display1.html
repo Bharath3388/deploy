@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Captioning</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
+        select {
+            margin-bottom: 10px;
+        }
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .caption {
+            margin-top: 20px;
+            border-top: 1px solid #ccc;
+            padding-top: 20px;
+        }
+        audio {
+            margin-top: 10px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Image Captioning</h1>
+        <form method="POST" action="/" enctype="multipart/form-data">
+            <label for="imagefile">Choose an image:</label><br>
+            <input type="file" id="imagefile" name="imagefile" accept="image/*"><br><br>
+            
+            <label for="language">Select language for translation:</label><br>
+            <select id="language" name="language">
+                <option value="en">English</option>
+                <option value="te">Telugu</option>
+                <option value="ta">Tamil</option>
+                <!-- Add more options for other languages as needed -->
+            </select><br><br>
+            
+            <input type="submit" value="Generate Caption">
+        </form>
+        
+        {% if prediction %}
+        <div class="caption">
+            <h2>Translated Caption:</h2>
+            <p>{{ prediction }}</p>
+            <!-- Audio player to listen to the caption -->
+            <audio controls>
+                <source src="/caption_audio" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+        {% endif %}
+        
+        {% if path %}
+        <h2>Uploaded Image:</h2>
+        <img src="{{ path }}" alt="Uploaded Image">
+        {% endif %}
+    </div>
+</body>
+</html>
