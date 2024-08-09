@@ -1,0 +1,6 @@
+transformers
+torch
+Pillow
+Flask
+googletrans
+gtts
