@@ -4,3 +4,4 @@ Pillow
 Flask
 googletrans
 gtts
+Gunicorn
